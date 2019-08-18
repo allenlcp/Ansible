@@ -1,0 +1,17 @@
+version: '3'
+services:
+  ansible-master:
+    build:
+      context: .
+      dockerfile: UbuntuAnsibleDockerfileMaster
+    container_name: ansible-master
+    depends_on:
+      - ansible-node
+  ansible-node:
+    build:
+      context: .
+      dockerfile: UbuntuAnsibleDockerfileNode
+    container_name: ansible-node
+    tty: true
+    ports:
+      - "49154:20" 

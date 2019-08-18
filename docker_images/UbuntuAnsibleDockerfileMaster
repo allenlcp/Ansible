@@ -1,0 +1,10 @@
+FROM ubuntu
+RUN apt-get update -y
+RUN apt-get install -y ansible openssh-client iputils-ping sshpass
+RUN mkdir -p /root/.ssh
+RUN ssh-keygen -t rsa -b 4096 -C "master@ansible.com" -f /root/.ssh/id_rsa && \
+    eval $(ssh-agent -s) && \
+    ssh-add -q /root/.ssh/id_rsa && \
+    cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys && \
+    chmod 644 /root/.ssh/authorized_keys
+ENTRYPOINT ["/bin/bash", "-c", "sshpass -p root ssh -o StrictHostKeyChecking=no root@ansible-node -p 22 'ls' && sshpass -p root ssh-copy-id root@ansible-node -p 22 && tail -f /dev/null"]
