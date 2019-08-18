@@ -1,0 +1,32 @@
+- hosts: all
+  tasks:
+  - name: Sample example to copy a file.
+    copy:
+      src: /home/test.txt
+      dest: /home/test.txt
+
+  - name: Script
+    copy:
+      src: /home/run_script.sh
+      dest: /home/run_script.sh
+
+  - name: Ansible command module multiple commands 
+    command: "touch {{ item }}"
+    with_items: 
+      - hello.txt 
+      - hello2.txt 
+      - hello3.txt 
+    args: 
+      chdir: /home
+
+  - name: Touch file
+    command: rm hello2.txt
+    args:
+      chdir: /home
+      removes: hello2.txt
+  
+  - name: Run a script only if file.txt exists on the remote node
+    script: /home/run_script.sh 
+    args:
+      chdir: /home
+      removes: /home/run_script.sh 

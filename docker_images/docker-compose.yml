@@ -5,6 +5,8 @@ services:
       context: .
       dockerfile: UbuntuAnsibleDockerfileMaster
     container_name: ansible-master
+    volumes:
+      - ../scripts:/home
     depends_on:
       - ansible-node
   ansible-node:
